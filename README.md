@@ -1,3 +1,5 @@
+# Modified for google colab compatibility
+
 # stanford-ctc
 Neural net code for lexicon-free speech recognition with connectionist temporal classification
 
