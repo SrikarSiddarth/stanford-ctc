@@ -1,4 +1,4 @@
-import cPickle as pickle
+import _pickle as pickle
 import cudamat as cm
 import ctc_fast as ctc
 import numpy as np
@@ -32,9 +32,9 @@ class NNet:
         self.maxAct = 20.0
 
     def initParams(self):
-	"""
-	Initialize parameters using 6/sqrt(fanin+fanout)
-	"""
+        """
+        Initialize parameters using 6/sqrt(fanin+fanout)
+        """
         sizes = [self.inputDim]+self.layerSizes+[self.outputDim]
         scales = [np.sqrt(6)/np.sqrt(n+m) for n,m in zip(sizes[:-1],sizes[1:])]
         self.stack = [[np.random.rand(m,n)*2*s-s,np.zeros((m,1))] \
@@ -88,7 +88,7 @@ class NNet:
     def paramCount(self):
         param_count = 0
         for w, b in self.stack:
-            print w.shape, b.shape
+            print(w.shape, b.shape)
             param_count += np.prod(w.shape)
             param_count += np.prod(b.shape)
         return param_count
@@ -256,15 +256,15 @@ class NNet:
             b.add_mult(db, alpha=scale)
 
     def toFile(self,fid):
-	"""
-	Saves only the network parameters to the given fd.
-	"""
+        """
+        Saves only the network parameters to the given fd.
+        """
         stack = []
         for w,b in self.stack:
             w.copy_to_host()
             b.copy_to_host()
             stack.append([w.numpy_array,b.numpy_array])
-	pickle.dump(stack,fid)
+        pickle.dump(stack,fid)
 
     def fromFile(self,fid):
         stack = pickle.load(fid)
@@ -280,7 +280,7 @@ class NNet:
         cost,grad,_ = self.costAndGrad(data,labels)
         # TODO randomize grad check selection
         for param,delta in zip(self.stack,grad):
-            print param[0].shape
+            print(param[0].shape)
             w,b = param
             dw,db = delta
             dw.copy_to_host()
@@ -294,7 +294,7 @@ class NNet:
                     numGrad = (costP - cost) / epsilon
                     w.numpy_array[i,j] -= epsilon
                     w.copy_to_device()
-                    print "Analytic %f, Numeric %f"%(dw.numpy_array[i,j],numGrad)
+                    print("Analytic %f, Numeric %f"%(dw.numpy_array[i,j],numGrad))
 
 if __name__=='__main__':
     import dataLoader as dl
@@ -315,7 +315,7 @@ if __name__=='__main__':
     rnn = NNet(inputDim,outputDim,layerSize,numLayers,maxUttLen,temporalLayer=2, reg=1.0)
     rnn.initParams()
     cost,grad,_ = rnn.costAndGrad(data,labels)
-    print "COST %.9f"%cost
+    print("COST %.9f"%cost)
 
     rnn.check_grad(data,labels)
 

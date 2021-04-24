@@ -1,5 +1,4 @@
 import numpy as np
-from itertools import izip
 import os
 import multiprocessing as mp
 
@@ -44,7 +43,7 @@ class DataLoader:
         keys = None
         sizes = None
         data = None
-	alis = []
+        alis = []
         if self.load_ali:
             with open(alisfile,'r') as fid:
                 for l in fid.readlines():
@@ -83,7 +82,7 @@ class DataLoader:
         if self.load_data:
             data_dict = {}
             startInd = 0
-            for k,s in izip(keys,sizes):
+            for k,s in zip(keys,sizes):
                 endInd = startInd + s
                 data_dict[k] = np.copy(data_mat[:,startInd:endInd])
                 startInd = endInd
@@ -103,7 +102,7 @@ if __name__=='__main__':
     filenum = 1
     
     data,alis,keys,sizes = dl.loadDataFile(filenum)
-    print "Data shape (featDim x frames): (%d,%d) "%data.shape
-    print "Number of transcripts: %d"%len(alis.keys())
-    print "Number of keys: %d"%len(keys)
-    print "Number of frames: %d"%sum(sizes)
+    print("Data shape (featDim x frames): (%d,%d) "%data.shape)
+    print("Number of transcripts: %d"%len(alis.keys()))
+    print("Number of keys: %d"%len(keys))
+    print("Number of frames: %d"%sum(sizes))

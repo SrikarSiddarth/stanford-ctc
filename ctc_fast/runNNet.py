@@ -4,7 +4,7 @@ import logging
 import optparse
 from os.path import join as pjoin
 import numpy as np
-import cPickle as pickle
+import _pickle as pickle
 import cudamat as cm
 
 from writeLikelihoods import writeLogLikes
@@ -85,7 +85,7 @@ def run(args=None):
         output_dir = pjoin(RUN_DIR, time_string)
         cfg['output_dir'] = output_dir
         if not os.path.exists(output_dir):
-            print 'Creating %s' % output_dir
+            print('Creating %s' % output_dir)
             os.makedirs(output_dir)
         opts.cfg_file = pjoin(output_dir, 'cfg.json')
     else:
@@ -215,10 +215,10 @@ def test(opts):
 
     with open(old_opts.in_file, 'r') as fid:
         pickle.load(fid)  # SGD data, not needed
-        print 'rawDim:', old_opts.rawDim, 'inputDim:', old_opts.inputDim,\
+        print('rawDim:', old_opts.rawDim, 'inputDim:', old_opts.inputDim,\
             'layerSize:', old_opts.layerSize, 'numLayers:', old_opts.numLayers,\
-            'maxUttLen:', old_opts.maxUttLen
-        print 'temporalLayer:', old_opts.temporalLayer, 'outputDim:', old_opts.outputDim
+            'maxUttLen:', old_opts.maxUttLen)
+        print('temporalLayer:', old_opts.temporalLayer, 'outputDim:', old_opts.outputDim)
 
         alisDir = opts.alisDir if opts.alisDir else opts.dataDir
         loader = dl.DataLoader(
